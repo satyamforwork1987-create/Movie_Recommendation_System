@@ -96,19 +96,19 @@ def poster_grid(cards, cols=6, key_prefix="grid"):
 
         with colset[c]:
              # FIX: Check if the poster is valid and not a 'nan' float/string
-                if poster and str(poster) != 'nan':
+            if poster and str(poster) != 'nan':
                     st.image(poster, use_container_width=True)
-                else:
+            else:
                     # Fallback to a clean placeholder image so the grid layout doesn't break
                     st.image("https://via.placeholder.com/500x750.png?text=No+Poster+Available", use_container_width=True)
 
-                if st.button("Open", key=f"{key_prefix}_{r}_{c}_{idx}_{tmdb_id}"):
-                    if tmdb_id:
+            if st.button("Open", key=f"{key_prefix}_{r}_{c}_{idx}_{tmdb_id}"):
+                if tmdb_id:
                         goto_details(tmdb_id)
 
-                st.markdown(
-                    f"<div class='movie-title'>{title}</div>", unsafe_allow_html=True
-                )
+            st.markdown(
+                f"<div class='movie-title'>{title}</div>", unsafe_allow_html=True
+            )
 
 def to_cards_from_tfidf_items(tfidf_items):
     cards = []
