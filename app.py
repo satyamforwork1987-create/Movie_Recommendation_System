@@ -4,7 +4,7 @@ import streamlit as st
 # =============================
 # CONFIG
 # =============================
-API_BASE = "https://movie-recommendation-system-uvux.onrender.com" or "http://127.0.0.1:8000"
+API_BASE = "https://movie-rec-466x.onrender.com" or "http://127.0.0.1:8000"
 TMDB_IMG = "https://image.tmdb.org/t/p/w500"
 
 st.set_page_config(page_title="Movie Recommender", page_icon="🎬", layout="wide")
@@ -89,26 +89,24 @@ def poster_grid(cards, cols=6, key_prefix="grid"):
             m = cards[idx]
             idx += 1
 
-
             tmdb_id = m.get("tmdb_id")
             title = m.get("title", "Untitled")
             poster = m.get("poster_url")
 
-        with colset[c]:
-             # FIX: Check if the poster is valid and not a 'nan' float/string
-            if poster and str(poster) != 'nan':
+            with colset[c]:
+                if poster:
                     st.image(poster, use_container_width=True)
-            else:
-                    # Fallback to a clean placeholder image so the grid layout doesn't break
-                    st.image("https://via.placeholder.com/500x750.png?text=No+Poster+Available", use_container_width=True)
+                else:
+                    st.write("🖼️ No poster")
 
-            if st.button("Open", key=f"{key_prefix}_{r}_{c}_{idx}_{tmdb_id}"):
-                if tmdb_id:
+                if st.button("Open", key=f"{key_prefix}_{r}_{c}_{idx}_{tmdb_id}"):
+                    if tmdb_id:
                         goto_details(tmdb_id)
 
-            st.markdown(
-                f"<div class='movie-title'>{title}</div>", unsafe_allow_html=True
-            )
+                st.markdown(
+                    f"<div class='movie-title'>{title}</div>", unsafe_allow_html=True
+                )
+
 
 def to_cards_from_tfidf_items(tfidf_items):
     cards = []
@@ -373,4 +371,4 @@ elif st.session_state.view == "details":
             else:
                 st.warning("No recommendations available right now.")
     else:
-        st.warning("No title available to compute recommendations.") 
+        st.warning("No title available to compute recommendations.")
